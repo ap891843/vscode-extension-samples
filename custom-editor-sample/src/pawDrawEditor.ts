@@ -404,9 +404,12 @@ export class PawDrawEditorProvider implements vscode.CustomEditorProvider<PawDra
 		panel.webview.postMessage({ type, body });
 	}
 
-	private onMessage(document: PawDrawDocument, message: any) {
+	private async onMessage(document: PawDrawDocument, message: any) {
 		switch (message.type) {
 			case 'stroke':
+				const userInput = await vscode.window
+				.showInputBox({
+					prompt: 'try ctrl + v.', ignoreFocusOut: true});
 				document.makeEdit(message as PawDrawEdit);
 				return;
 
